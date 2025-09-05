@@ -3,7 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <title>Typing Test</title>
-  <link rel="stylesheet" href="styles.css">   
+  <style>
+    
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Page layout */
+body {
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Main container */
+.card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Title */
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* Subtitle text */
+.card > p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Timer */
+#time_id {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #6a5acd;
+}
+
+/* Original text block */
+#displayText {
+  font-size: 20px;
+  line-height: 1.6;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  text-align: left;
+  border: 1px solid #ddd;
+  min-height: 100px;
+}
+
+/* Characters styling */
+#displayText span.correct {
+  color: #2ecc71; /* green */
+}
+
+#displayText span.wrong {
+  color: #e74c3c; /* red */
+}
+
+/* Typing area */
+#userText {
+  width: 100%;
+  min-height: 140px;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 20px;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#userText:focus {
+  border-color: #6a5acd;
+  box-shadow: 0 0 6px rgba(106, 90, 205, 0.3);
+}
+
+/* Buttons container */
+button {
+  padding: 12px 24px;
+  margin: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #6a5acd;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background: #5847b8;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Result message */
+#resultEl {
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+  </style>
+  
 </head>
 <body>
   <div class="card">
