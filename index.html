@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typing Test</title>
+  <link rel="stylesheet" href="styles.css">   
+</head>
+<body>
+  <div class="card">
+    <h1>Speed Typing Test</h1>
+    <p id="time_id">0 seconds</p>
+
+    <!-- The text to type -->
+    <div id="displayText"></div>
+
+    <!-- User typing area -->
+    <textarea id="userText" rows="6" cols="60" placeholder="Type here..."></textarea>
+
+    <!-- Result area -->
+    <p id="resultEl"></p>
+
+    <!-- Buttons -->
+    <button id="submitEl">Submit</button>
+    <button id="resetEl">Reset</button>
+  </div>
+
+  <script>
+    // Get all DOM elements
+    let displayText = document.getElementById("displayText");
+    let textareaEl = document.getElementById("userText");
+    let resultEl = document.getElementById("resultEl");
+    let timeEl = document.getElementById("time_id");
+    let submitEl = document.getElementById("submitEl");
+    let resetEl = document.getElementById("resetEl");
+
+    // Sentence for typing test
+    let originalText =
+      "Do not give your attention to what others do or fail to do; give it to what you do or fail to do.";
+
+    // Timer variables
+    let countdown = 0;
+    let intervalId = null;
+
+    // Render original text as spans
+    function renderText() {
+      displayText.innerHTML = "";
+      for (let i = 0; i < originalText.length; i++) {
+        let span = document.createElement("span");
+        span.textContent = originalText[i];
+        displayText.appendChild(span);
+      }
+    }
+    renderText();
+
+    // Start timer when typing begins
+    function startTimer() {
+      if (intervalId !== null) return; // don't start twice
+      intervalId = setInterval(function () {
+        countdown++;
+        timeEl.textContent = countdown + " seconds";
+      }, 1000);
+    }
+
+    // Real-time typing check
+    textareaEl.addEventListener("input", function () {
+      startTimer();
+      let input = textareaEl.value;
+      let spans = displayText.querySelectorAll("span");
+
+      // reset styles
+      spans.forEach(span => {
+        span.classList.remove("correct", "wrong");
+      });
+
+      // compare typed characters
+      for (let i = 0; i < input.length; i++) {
+        if (i >= originalText.length) break;
+        if (input[i] === originalText[i]) {
+          spans[i].classList.add("correct");
+        } else {
+          spans[i].classList.add("wrong");
+        }
+      }
+    });
+
+    // Submit check
+    function validate() {
+      clearInterval(intervalId);
+      intervalId = null;
+
+      let typed = textareaEl.value.trim();
+      let correct = 0;
+
+      // count correct chars
+      for (let i = 0; i < typed.length; i++) {
+        if (typed[i] === originalText[i]) correct++;
+      }
+
+      // accuracy %
+      let accuracy = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 0;
+
+      // words per minute
+      let words = typed.split(/\s+/).length;
+      let minutes = countdown / 60;
+      let wpm = minutes > 0 ? Math.round(words / minutes) : 0;
+
+      if (typed === originalText) {
+        resultEl.textContent = `✅ Correct! Speed: ${wpm} WPM | Accuracy: ${accuracy}%`;
+        resultEl.style.color = "green";
+      } else {
+        resultEl.textContent = `❌ Try Again | Speed: ${wpm} WPM | Accuracy: ${accuracy}%`;
+        resultEl.style.color = "red";
+      }
+    }
+    submitEl.addEventListener("click", validate);
+
+    // Reset everything
+    resetEl.addEventListener("click", function () {
+      clearInterval(intervalId);
+      intervalId = null;
+      countdown = 0;
+      timeEl.textContent = "0 seconds";
+      textareaEl.value = "";
+      resultEl.textContent = "";
+      renderText();
+    });
+  </script>
+</body>
+</html>
